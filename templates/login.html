@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div id="reloj">
+    00 : 00 : 00
+</div>
+<h2> AUTENTIFICACIÓN </h2>
+    <form method="post" action="/access">
+    <table>
+        <tr><td>User:</td><td><input name="user" type="TEXT" width="60"></td></tr>
+        <tr><td>Password:</td><td><input name="password" type="password" width="60"></td></tr>
+    </table>
+    <p><input value="LOG IN" type="SUBMIT"></p>
+    </form>
+    <form action="/entryAnonymous">
+        <p><input value= "ANONIMOUS ACCESS" type="SUBMIT"></p>
+    </form>
+    <form action="/register">
+        <p><input value="REGISTER" type="SUBMIT"></p>
+    </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div id="reloj">
+    00 : 00 : 00
+</div>
+<h2>{{ the_title }}</h2>
+    <form method="post" action="/search">
+    <table>
+        <p>
+            Use this form to submit a search request:
+        </p>
+        <tr><td>Phrase:</td><td><input name="phrase" type="TEXT" width="60"></td></tr>
+        <tr><td>Letters:</td>
+            <td>
+            <select size=1 name="letters">
+            <option value="aeiou">aeiou</option>
+            <option value="fjxl">fjxl</option>
+            <option value="hola">hola</option>
+            </select>
+            </td>
+        </tr>
+        <input name = "user" type = "hidden" value = {{the_user}}>
+    </table>
+    <p>When you are ready, click start button:</p>
+    <p><input value="START" type="SUBMIT"></p>
+    </form>
+{% endblock %}
