@@ -11,12 +11,16 @@ cursor.execute("""CREATE TABLE usuarios(
 
 cursor.execute("""CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
     username TEXT NOT NULL,
-    form TEXT NOT NULL,
+    phrase TEXT NOT NULL,
+    letters TEXT NOT NULL,
     remoteAddr TEXT NOT NULL,
     userAgent TEXT NOT NULL,
     result TEXT NOT NULL,
     timestamp TEXT NOT NULL,
     FOREIGN KEY (username) REFERENCES usuarios)""")
+
+cursor.execute("""CREATE TABLE visitas(visit INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    username TEXT NOT NULL)""")
 
 connection.commit()
 cursor.close()

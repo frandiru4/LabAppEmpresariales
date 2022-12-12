@@ -24,7 +24,13 @@ def do_search() -> 'html':
 
 @app.route("/entryAnonymous")
 def entry_page() -> 'html': #Se le ha dicho que devulve un html
-    return render_template('entry.html', the_title='Welcome to search for letter on web, your user is Anonymous', the_user = 'Anonymous')
+    databaseFunction.registrar_visita('Anonymous')
+    most_used_phrase = databaseFunction.phrase_most_used()
+    most_used_letter = databaseFunction.letters_most_used()
+    return render_template('entry.html', the_title='Welcome to search for letter on web, your user is Anonymous',
+                           the_user = 'Anonymous',
+                           the_most_used_phrase=most_used_phrase,
+                           the_most_used_letter=most_used_letter)
 
 #Esta parte eliminarla no es normal que este en paginas web solo como depuración
 @app.route("/viewlog")
@@ -43,7 +49,7 @@ def show_log() -> 'html':
 
 @app.route("/login")
 def login() -> 'html':
-    return render_template('login.html', the_hour = actual())
+    return render_template('login.html')
 
 @app.route("/register")
 def register() -> 'html':
@@ -62,20 +68,24 @@ def registerComplete() -> 'html':
 @app.route("/access", methods = ['POST'])
 def access() -> 'html':
     if databaseFunction.validLogin(request.form['user'],request.form['password']):
-        return render_template('entry.html', the_title = 'Welcome ' + request.form['user'] + " to search for letter on web", the_user = request.form['user'])
+        databaseFunction.registrar_visita(request.form['user'])
+        most_used_phrase = databaseFunction.phrase_most_used()
+        most_used_letter = databaseFunction.letters_most_used()
+        return render_template('entry.html',
+                               the_title='Welcome ' + request.form['user'] + " to search for letter on web",
+                               the_user=request.form['user'],
+                               the_most_used_phrase = most_used_phrase,
+                               the_most_used_letter = most_used_letter)
+
     else:
         return render_template('error.html', the_title = "ERROR WITH THE NAME OF USER OR PASSWORD")
 
-def actual():
-    now = datetime.now() # Actualizar
-    hora = now.hour #hora actual
-    minuto = now.minute # minuto actual
-    segundo = now.second # segundo actual
-    if (hora < 10):  #dos cifras para la hora
-        hora="0"+hora
-    if (minuto < 10): #dos cifras para el minuto
-        minuto="0"+minuto
-    if (segundo < 10):  #dos cifras para el segundo
-        segundo="0"+segundo
-    mireloj = str(hora) + " : " + str(minuto) + " : " + str(segundo);
-    return mireloj
+@app.route('/visits')
+def visitas():
+    connection = sqlite3.connect('BaseDataProyectos.sqlite')
+    cursor = connection.cursor()
+    cursor.execute("""SELECT* FROM visitas""")
+    contents = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return escape(contents)
