@@ -12,9 +12,9 @@ a {
     font-weight: 600;
 }
 
-#reloj { width: 150px; height: 30px; padding: 5px 10px; border: 1px solid black;
+#reloj { width: 150px; height: 30px; padding: 5px 10px; border: 1px solid #09CEBC;
          font: bold 1.5em dotum, "lucida sans", arial; text-align: center;
-         float: right; margin: 1em 3em 1em 1em; }
+         float: right; margin: 1em 3em 1em 1em; color: #09CEBC}
 
 a:hover {
     text-decoration: underline;
