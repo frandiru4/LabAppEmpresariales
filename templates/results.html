@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
+<p>
+<button onclick="location.href='/login'" class = "button" > X </button>
+</p>
 <h2><p style="color: white">{{ the_title }}</p></h2>
 
 <p style="color: white">You submitted the following data:</p>
@@ -17,5 +19,6 @@
     <input name = "user" type = "hidden" value = {{the_user}}>
     <p><input value="RESTART SEARCH" type="SUBMIT"></p>
 </form>
+
 
 {% endblock %}
