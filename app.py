@@ -20,7 +20,7 @@ def do_search() -> 'html':
     #log_request(request,result) Para tener un archivo log, pero lo hemos cambiado por la base de datos
     databaseFunction.log_request_db(request,result,user)
     return render_template('results.html', the_title='Here are you results: ', the_phrase=phrase,
-                           the_letters=letters, the_results=result)
+                           the_letters=letters, the_results=result, the_user = user)
 
 @app.route("/entryAnonymous")
 def entry_page() -> 'html': #Se le ha dicho que devulve un html
@@ -67,7 +67,7 @@ def registerComplete() -> 'html':
 
 @app.route("/access", methods = ['POST'])
 def access() -> 'html':
-    if databaseFunction.validLogin(request.form['user'],request.form['password']):
+    if databaseFunction.validLogin(request.form['user'], request.form['password']):
         databaseFunction.registrar_visita(request.form['user'])
         most_used_phrase = databaseFunction.phrase_most_used()
         most_used_letter = databaseFunction.letters_most_used()
@@ -79,6 +79,16 @@ def access() -> 'html':
 
     else:
         return render_template('error.html', the_title = "ERROR WITH THE NAME OF USER OR PASSWORD")
+
+@app.route("/accessContinue", methods = ['POST'])
+def accessContinue() -> 'html':
+    most_used_phrase = databaseFunction.phrase_most_used()
+    most_used_letter = databaseFunction.letters_most_used()
+    return render_template('entry.html',
+                           the_title='Welcome ' + request.form['user'] + " to search for letter on web",
+                           the_user= request.form['user'],
+                           the_most_used_phrase=most_used_phrase,
+                           the_most_used_letter=most_used_letter)
 
 @app.route('/visits')
 def visitas():
